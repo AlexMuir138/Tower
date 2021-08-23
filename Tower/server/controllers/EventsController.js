@@ -1,5 +1,6 @@
 import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
+import { eventsService } from '../services/EventsService'
 export class EventsController extends BaseController {
   constructor() {
     super('api/events')
@@ -13,27 +14,60 @@ export class EventsController extends BaseController {
       .put('/:id', this.updateEvent)
   }
 
-  cancelEvent(arg0, cancelEvent) {
-    throw new Error('Method not implemented.')
+  async cancelEvent(req, res, next) {
+    try {
+      const event = await eventsService.cancelEvent(req.params.id)
+      return res.send(event)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  updateEvent(arg0, updateEvent) {
-    throw new Error('Method not implemented.')
+  async updateEvent(req, res, next) {
+    try {
+      const event = await eventsService.updateEvent(req.params.id, req.body, req.userInfo.id)
+      return res.send(event)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  create(arg0, create) {
-    throw new Error('Method not implemented.')
+  async create(req, res, next) {
+    try {
+      const eventData = req.body
+      eventData.creatorId = req.userInfo.id
+      eventData.creator = req.userInfo
+      const event = await eventsService.create(eventData)
+      return res.send(event)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  getEventByTicketId(arg0, getEventByTicketId) {
-    throw new Error('Method not implemented.')
+  async getEventByTicketId(req, res, next) {
+    try {
+      const tickets = await eventsService.getTicketsByEventId(req.params.id)
+      return res.send(tickets)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  getById(arg0, getById) {
-    throw new Error('Method not implemented.')
+  async getById(req, res, next) {
+    try {
+      const event = await eventsService.getTicketsByEventId(req.params.id)
+      return res.send(event)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  getAllEvents(arg0, getAllEvents) {
-    throw new Error('Method not implemented.')
+  async getAllEvents(req, res, next) {
+    try {
+      const events = await eventsService.getAllEvents()
+      return res.send(events)
+    } catch (error) {
+      next(error)
+    }
   }
 }
