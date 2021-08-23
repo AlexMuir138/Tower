@@ -1,11 +1,17 @@
-export class Event {
-  constructor(data) {
-    this.title = data.title
-    this.description = data.description
-    this.closed = data.closed
-    this.creatorId = data.creatorId
-    this.creator = data.creator
-    this.id = data.id
-    this.updatedAt = data.updatedAt
-  }
-}
+import mongoose, { Schema } from 'mongoose'
+
+const EventSchema = new mongoose.Schema({
+  cancelled: { type: Boolean, required: true, default: false },
+  description: { type: String, required: true },
+  title: { type: String, required: true },
+  cancelDate: { type: Date },
+  creatorId: { type: Schema.Types.ObjectId, ref: 'Account', required: true }
+}, { timestamps: true, toJSON: { virtuals: true } }
+)
+EventSchema.virtual('creator', {
+  localField: 'creatorId',
+  ref: 'Account',
+  foreignField: '_id',
+  justOne: true
+})
+export default EventSchema

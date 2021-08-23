@@ -1,6 +1,9 @@
+import { dbContext } from '../db/DbContext'
+import { BadRequest } from '../utils/Errors'
 class EventsService {
-  getAllEvents() {
-    throw new Error('Method not implemented.')
+  async getAllEvents(query = {}) {
+    const events = await dbContext.Event.find(query).populate('creator')
+    return events
   }
 
   getTicketsByEventId(id) {
