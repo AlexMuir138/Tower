@@ -6,20 +6,28 @@ class EventsService {
     return events
   }
 
-  getTicketsByEventId(id) {
-    throw new Error('Method not implemented.')
+  async getTicketsByEventId(id) {
+    const tickets = await dbContext.Ticket.find({ event: id }).populate('creator')
+    return tickets
   }
 
-  create(eventData) {
-    throw new Error('Method not implemented.')
+  async create(event) {
+    const newEvent = await dbContext.Event.create(event)
+    newEvent.populate('creator', 'name email picture')
+    return newEvent
   }
 
-  updateEvent(id, body, id) {
-    throw new Error('Method not implemented.')
+  async updateEvent(id, eventData, userId) {
+    const event = await dbContext.Event.findOne({ _id: id, creatorId: userId })
+    if (event.cancelled) {
+      throw Error('Cancelled')
+    }
+    eventData.cancelled = false
+    return await dbContext.Event.findByIdAndUpdate(id, eventData, { new: true, runValidators: true })
   }
 
-  cancelEvent(id) {
-    throw new Error('Method not implemented.')
+  async cancelEvent(id) {
+    return await dbContext.Event.findByIdAndDelete(id, { cancelled: true })
   }
 }
 export const eventsService = new EventsService()
