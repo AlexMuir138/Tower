@@ -1,6 +1,14 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 class EventsService {
+  async getById(id, userId) {
+    const event = await dbContext.Event.findOne({ _id: id }).populate('creator')
+    if (!event) {
+      throw new BadRequest('Not your event!')
+    }
+    return event
+  }
+
   async getAllEvents(query = {}) {
     const events = await dbContext.Event.find(query).populate('creator')
     return events

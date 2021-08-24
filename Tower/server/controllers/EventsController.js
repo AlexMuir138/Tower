@@ -55,7 +55,7 @@ export class EventsController extends BaseController {
 
   async getById(req, res, next) {
     try {
-      const event = await eventsService.getTicketsByEventId(req.params.id)
+      const event = await eventsService.getById(req.params.id)
       return res.send(event)
     } catch (error) {
       next(error)
