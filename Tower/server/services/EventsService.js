@@ -27,7 +27,7 @@ class EventsService {
   }
 
   async cancelEvent(id) {
-    return await dbContext.Event.findByIdAndDelete(id, { cancelled: true })
+    return await dbContext.Event.findByIdAndUpdate(id, { cancelled: true })
   }
 }
 export const eventsService = new EventsService()
