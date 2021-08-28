@@ -1,5 +1,6 @@
 import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
+import { ticketsService } from '../services/TicketsService'
 
 export class TicketsController extends BaseController {
   constructor() {
@@ -10,11 +11,23 @@ export class TicketsController extends BaseController {
       .delete('/:ticketId', this.deleteTicket)
   }
 
-  deleteTicket(arg0, deleteTicket) {
-    throw new Error('Method not implemented.')
+  async deleteTicket(req, res, next) {
+    try {
+      const ticket = await ticketsService.deleteTicket(req.params.ticketId)
+      return res.send(ticket)
+    } catch (error) {
+      next(error)
+    }
   }
 
-  createTicket(arg0, createTicket) {
-    throw new Error('Method not implemented.')
+  async createTicket(req, res, next) {
+    try {
+      const ticketData = req.body
+      ticketData.creatorId = req.userInfo.id
+      const ticket = await ticketsService.createTicket(ticketData)
+      return res.send(ticket)
+    } catch (error) {
+      next(error)
+    }
   }
 }
