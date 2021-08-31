@@ -5,7 +5,7 @@ class EventsService {
   async getEvents() {
     const res = await api.get('api/events')
     logger.log(res.data)
-    AppState.events
+    AppState.events = res.data.map(e => new Event(e))
   }
 
   async cancelEvent(id) {
