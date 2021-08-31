@@ -4,12 +4,22 @@
 </template>
 
 <script>
+import { eventsService } from '../services/EventsService'
+import { useRoute } from 'vue-router'
+
 export default {
-  name: 'Component',
-  setup() {
-    return {}
-  },
-  components: {}
+  props: { event: { type: Object, required: true } },
+  setup(props) {
+    const route = useRoute()
+    return {
+      async cancelEvent() {
+        if (await Notification.confirmAction()) {
+          await eventsService.cancelEvent(props.event.id)
+          await eventsService.getEvents(route.params.id)
+        }
+      }
+    }
+  }
 }
 </script>
 
