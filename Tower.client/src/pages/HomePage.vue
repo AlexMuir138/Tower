@@ -8,29 +8,29 @@
 </template>
 
 <script>
-import { onMounted } from "@vue/runtime-core"
-import { AppState } from "../AppState"
-import { eventsService } from "../services/EventsService"
+import { reactive, onMounted } from '@vue/runtime-core'
+import { AppState } from '../AppState'
+import { eventsService } from '../services/EventsService'
 export default {
   setup() {
-const state = reactive({
-  sortCancelled: true,
-  events: computed(() => {
-    if (state.sortCancelled === true) {
-      return AppState.events
-    }
-    return AppState.events.filter(c => c.cancelled === false)
-  }) 
-})
-  },
-  onMounted(async() => {
-    try {
-      await eventsService.getEvents()
-    } catch (error) {
-      Notification.toast(error)
-    }
-  })
+    const state = reactive({
+      sortCancelled: true,
+      events: computed(() => {
+        if (state.sortCancelled === true) {
+          return AppState.events
+        }
+        return AppState.events.filter(c => c.cancelled === false)
+      })
+    })
+  }
 }
+onMounted(async() => {
+  try {
+    await eventsService.getEvents()
+  } catch (error) {
+    Notification.toast(error)
+  }
+})
 </script>
 
 <style scoped lang="scss">
