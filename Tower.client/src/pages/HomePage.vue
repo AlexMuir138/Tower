@@ -8,12 +8,13 @@
 </template>
 
 <script>
-import { reactive, onMounted } from '@vue/runtime-core'
+import { reactive, onMounted, computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { eventsService } from '../services/EventsService'
 export default {
   setup() {
     const state = reactive({
+      newEvent: {},
       sortCancelled: true,
       events: computed(() => {
         if (state.sortCancelled === true) {
