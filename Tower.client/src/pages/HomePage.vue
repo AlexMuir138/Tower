@@ -2,6 +2,16 @@
   <div class="home container-fluid">
     Here Be The Events
   </div>
+  <div class="row">
+    <div class="col-10">
+      <Event v-for="event in state.events"
+             :key="event.id"
+             :event="event"
+      />
+
+      </event>
+    </div>
+  </div>
 </template>
 
 <script>
