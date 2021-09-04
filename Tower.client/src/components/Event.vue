@@ -1,5 +1,6 @@
 <template>
-  <div class="component">
+  <div class="event">
+    <h1>This be an event</h1>
   </div>
 </template>
 
