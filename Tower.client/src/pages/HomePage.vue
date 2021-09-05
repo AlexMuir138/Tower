@@ -9,7 +9,7 @@
              :event="event"
       />
 
-      </event>
+      <h1>Buy Tickets!</h1>
     </div>
   </div>
 </template>

@@ -1,6 +1,7 @@
 <template>
   <div class="event">
     <h1>This be an event</h1>
+    <h3>This be an Event Title</h3>
   </div>
 </template>
 
