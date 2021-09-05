@@ -3,7 +3,7 @@
     Here Be The Events
   </div>
   <div class="row">
-    <div class="col-10">
+    <div class="col-10 d-flex justify-content-center shadow">
       <Event v-for="event in state.events"
              :key="event.id"
              :event="event"
